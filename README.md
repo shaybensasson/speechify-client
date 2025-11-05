@@ -216,6 +216,64 @@ See the `examples/` directory for more detailed examples:
 - `basic_usage.py`: Simple example with voice listing and synthesis
 - `context_manager.py`: Using the client as a context manager
 - `access_token.py`: Creating and using access tokens
+- `tts_play.py`: Command-line tool for synthesizing and playing speech from stdin
+
+### Command-Line TTS Playback (`tts_play.py`)
+
+The `tts_play.py` script reads text from standard input, synthesizes speech using the Speechify API, and plays the generated audio immediately. This is useful for quick text-to-speech conversion from the command line.
+
+**Prerequisites:**
+
+Install the `sox` package for audio playback:
+
+```bash
+# Ubuntu/Debian
+sudo apt-get install sox
+
+# macOS (using Homebrew)
+brew install sox
+```
+
+**Basic Usage:**
+
+```bash
+# Read from echo
+echo "Hello world" | uv run python examples/tts_play.py
+
+# Read from a file
+cat file.txt | uv run python examples/tts_play.py
+
+# Read from stdin redirect
+uv run python examples/tts_play.py < input.txt
+```
+
+**Options:**
+
+- `--voice-id VOICE_ID`: Specify the voice ID to use (default: "george")
+- `-q, --quiet`: Suppress informational messages
+- `--save`: Save the audio file in addition to playing it (saves to system temp directory)
+- `--speed SPEED`: Set the playback speed (default: 1.25)
+
+**Examples:**
+
+```bash
+# Use a specific voice
+echo "Testing voice" | uv run python examples/tts_play.py --voice-id george
+
+# Save audio file while playing
+echo "Save this audio" | uv run python examples/tts_play.py --save
+
+# Quiet mode (no informational output)
+echo "Silent playback" | uv run python examples/tts_play.py -q
+
+# Custom playback speed
+echo "Faster speech" | uv run python examples/tts_play.py --speed 1.5
+
+# Combine options
+cat long_text.txt | uv run python examples/tts_play.py --voice-id george --speed 1.3 --save
+```
+
+**Note:** The script automatically loads your API key from the `.env` file. Make sure you have set `SPEECHIFY_API_KEY` in your `.env` file before running the script.
 
 ## Testing
 
